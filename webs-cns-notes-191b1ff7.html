@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>pg电子 · 知识库入口</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background: linear-gradient(145deg, #fdf4e3 0%, #fbebd2 40%, #f8dcc0 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem 1rem;
+            color: #3d2e21;
+            line-height: 1.6;
+        }
+
+        .page-wrapper {
+            max-width: 1120px;
+            width: 100%;
+        }
+
+        /* 目录感标签 */
+        .index-badge {
+            display: inline-block;
+            font-size: 0.75rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: #9a7b61;
+            background: rgba(255, 245, 235, 0.7);
+            padding: 0.3rem 1rem;
+            border-radius: 30px;
+            margin-bottom: 1rem;
+            backdrop-filter: blur(2px);
+            border: 1px solid #ebd5be;
+        }
+
+        /* 主卡 —— 白底柔影 */
+        .card {
+            background: #fffffffa;
+            backdrop-filter: blur(1px);
+            border-radius: 32px;
+            box-shadow: 0 12px 28px -8px rgba(100, 60, 30, 0.12), 0 4px 12px rgba(0,0,0,0.02);
+            padding: 2.2rem 2rem;
+            margin-bottom: 1.8rem;
+            transition: box-shadow 0.2s, transform 0.15s;
+        }
+
+        .card:hover {
+            box-shadow: 0 18px 34px -12px rgba(110, 70, 40, 0.18);
+            transform: translateY(-2px);
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.5rem;
+            color: #4b3522;
+        }
+
+        h2 {
+            font-size: 1.25rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        h2::before {
+            content: "▹";
+            color: #c9986e;
+            font-size: 1.1rem;
+        }
+
+        .hero-sub {
+            font-size: 1rem;
+            color: #6a5543;
+            margin-bottom: 1.2rem;
+            padding-bottom: 0.6rem;
+            border-bottom: 1px solid #efe2d4;
+        }
+
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .info-slab {
+            background: #f9f4ee;
+            border-radius: 20px;
+            padding: 1.2rem 1.4rem;
+            margin: 1rem 0;
+        }
+
+        .info-slab p + p {
+            margin-top: 0.6rem;
+        }
+
+        .link-button {
+            display: inline-block;
+            background: #e7d6c6;
+            color: #3d2e21;
+            padding: 0.5rem 1.4rem;
+            border-radius: 40px;
+            font-weight: 500;
+            text-decoration: none;
+            font-size: 0.95rem;
+            border: 1px solid #dcc4b0;
+            transition: background 0.2s, border-color 0.15s, color 0.15s;
+            letter-spacing: 0.01em;
+        }
+
+        .link-button:hover {
+            background: #dac0ab;
+            border-color: #ba9b83;
+            color: #2f1f13;
+        }
+
+        .link-button-soft {
+            background: transparent;
+            border: 1px solid #d6bfac;
+            color: #5f4533;
+            border-radius: 40px;
+            padding: 0.3rem 1.1rem;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .link-button-soft:hover {
+            background: #e9d9ca;
+            border-color: #b39279;
+        }
+
+        /* 提示区 */
+        .notice-strip {
+            background: #f6ede4;
+            border-radius: 24px;
+            padding: 1.3rem 1.6rem;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: baseline;
+            gap: 0.6rem 1.2rem;
+            border-left: 6px solid #dbb396;
+            margin: 1.5rem 0;
+        }
+
+        .notice-strip strong {
+            color: #5f3f28;
+        }
+
+        .faq-mini {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .faq-item {
+            border-bottom: 1px dashed #e1cebb;
+            padding-bottom: 0.6rem;
+        }
+
+        .faq-q {
+            font-weight: 500;
+            margin-bottom: 0.15rem;
+            color: #4f3826;
+        }
+
+        .faq-a {
+            font-size: 0.95rem;
+            color: #6a5543;
+        }
+
+        .related-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem 0.8rem;
+            margin-top: 0.5rem;
+        }
+
+        .related-tags span {
+            background: #f2e7dd;
+            border-radius: 30px;
+            padding: 0.2rem 1rem;
+            font-size: 0.85rem;
+            color: #4b3a2c;
+            border: 1px solid #e2cfbd;
+        }
+
+        .footer-note {
+            text-align: center;
+            font-size: 0.85rem;
+            color: #7d6652;
+            margin-top: 2rem;
+            padding-top: 0.8rem;
+            border-top: 1px solid #e5d3c1;
+        }
+
+        /* 响应式 */
+        @media (max-width: 700px) {
+            .grid-2col {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .card {
+                padding: 1.6rem 1.2rem;
+            }
+
+            h1 {
+                font-size: 1.6rem;
+            }
+
+            .notice-strip {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 1rem 0.6rem;
+            }
+            .card {
+                border-radius: 24px;
+                padding: 1.2rem 0.9rem;
+            }
+            .link-button {
+                font-size: 0.9rem;
+                padding: 0.4rem 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="page-wrapper">
+    <!-- 目录感标识 -->
+    <div class="index-badge">📂 知识库 · 入口</div>
+
+    <!-- HERO 卡片 -->
+    <div class="card">
+        <h1>pg电子 · 信息聚合</h1>
+        <div class="hero-sub">再次访问入口 · 收藏夹常备 · 持续关注动态</div>
+        <p style="margin-bottom: 0.6rem;">
+            如果你正在寻找关于 <a href="https://webs-cns-pgsoft.com" class="link-button" style="padding: 0.2rem 1rem; font-weight: 500;">pg电子</a> 的整理资料、版本记录或使用备忘，这个页面可以作为你的固定起点。内容保持克制，侧重可回溯的参考信息，不包含夸大承诺。
+        </p>
+        <p style="color: #6a5543; font-size: 0.95rem;">
+            建议将当前地址加入浏览器书签，方便后续快速定位。知识库会按季度做结构化更新。
+        </p>
+    </div>
+
+    <!-- 双栏：特点 + 场景 -->
+    <div class="grid-2col">
+        <div class="card">
+            <h2>特点摘要</h2>
+            <ul style="list-style: none; padding-left: 0;">
+                <li style="margin-bottom: 0.7rem; padding-left: 1.2rem; position: relative;">
+                    <span style="position: absolute; left: 0; color: #b38866;">•</span>
+                    模块化交互面板，可分层查阅
+                </li>
+                <li style="margin-bottom: 0.7rem; padding-left: 1.2rem; position: relative;">
+                    <span style="position: absolute; left: 0; color: #b38866;">•</span>
+                    资源索引与常见疑问区分置
+                </li>
+                <li style="margin-bottom: 0.7rem; padding-left: 1.2rem; position: relative;">
+                    <span style="position: absolute; left: 0; color: #b38866;">•</span>
+                    收藏友好：无弹窗、无自动跳转
+                </li>
+                <li style="margin-bottom: 0.7rem; padding-left: 1.2rem; position: relative;">
+                    <span style="position: absolute; left: 0; color: #b38866;">•</span>
+                    页面结构适配再次查找场景
+                </li>
+            </ul>
+            <div style="margin-top: 0.5rem;">
+                <a href="https://webs-cns-pgsoft.com" class="link-button-soft">pg电子</a>
+                <span style="font-size: 0.85rem; color: #826b58; margin-left: 0.5rem;">· 直达信息页</span>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>适用场景</h2>
+            <div class="info-slab">
+                <p><strong>▸ 再次访问</strong><br>已浏览过相关内容，需要回到同一信息层级查阅细节。</p>
+                <p><strong>▸ 收藏参考</strong><br>将页面标为书签，作为长期跟踪的固定锚点。</p>
+                <p><strong>▸ 持续关注</strong><br>定期回来查看摘要更新，无需反复搜索。</p>
+            </div>
+            <p style="font-size: 0.9rem; color: #6a5543; margin-top: 0.4rem;">
+                不适合用于即时交易、高频率刷新或非常规用途。
+            </p>
+        </div>
+    </div>
+
+    <!-- 提示区 -->
+    <div class="notice-strip">
+        <strong>📌 再次使用提示</strong>
+        <span>若间隔较长时间返回，建议查看页面底部的更新备注栏（如有）。</span>
+        <span>如遇链接失效，可尝试通过 <a href="https://webs-cns-pgsoft.com" style="color: #5f3f28; text-decoration: underline;">pg电子</a> 主域重新定位。</span>
+    </div>
+
+    <!-- FAQ 摘要卡片 -->
+    <div class="card">
+        <h2>FAQ 摘要</h2>
+        <div class="faq-mini">
+            <div class="faq-item">
+                <div class="faq-q">该页面内容多久更新一次？</div>
+                <div class="faq-a">通常按季度汇总，主要反映结构或资源索引的变化。非实时数据。</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-q">是否可以直接收藏当前页面？</div>
+                <div class="faq-a">可以。本页不会主动重定向，适合长期保存为书签。</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-q">从哪里获得更多上下文？</div>
+                <div class="faq-a">页面中的 <a href="https://webs-cns-pgsoft.com" style="color: #5f3f28; text-decoration: underline;">pg电子</a> 链接指向信息主站，内容组织方式与本页一致。</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 相关信息区 -->
+    <div class="card" style="padding-bottom: 1.6rem;">
+        <h2>相关信息</h2>
+        <div style="display: flex; flex-wrap: wrap; gap: 0.8rem 1.6rem; justify-content: space-between;">
+            <div>
+                <div style="font-weight: 500; margin-bottom: 0.2rem;">📎 页面定位</div>
+                <div style="font-size: 0.9rem; color: #6a5543;">知识库入口 · 非官方文档</div>
+            </div>
+            <div>
+                <div style="font-weight: 500; margin-bottom: 0.2rem;">🔗 主域</div>
+                <div><a href="https://webs-cns-pgsoft.com" class="link-button-soft">pg电子</a></div>
+            </div>
+            <div>
+                <div style="font-weight: 500; margin-bottom: 0.2rem;">🏷️ 关联</div>
+                <div class="related-tags">
+                    <span>索引</span>
+                    <span>收藏</span>
+                    <span>参考</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 底部 -->
+    <div class="footer-note">
+        本页面仅作为结构化入口，内容真实克制。建议定期回访以获取最新索引。<br>
+        pg电子 · 知识库入口
+    </div>
+</div>
+</body>
+</html>
